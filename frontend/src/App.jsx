@@ -68,7 +68,7 @@ function App() {
 
   return (
     <div className="container">
-      <h1>Items</h1>
+      <h1>ITEMS</h1>
 
       <form onSubmit={addItem} className="item-form">
         <input

@@ -1,8 +1,17 @@
-:root {
+{
   color-scheme: light dark;
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
   margin: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
