@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: simple-app
+data:
+  # Nginx reads these at container startup and fills them into
+  # /etc/nginx/templates/default.conf.template (envsubst) — change the
+  # values and restart the pods, no image rebuild needed.
+  BACKEND_HOST: backend
+  BACKEND_PORT: "3000"

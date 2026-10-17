@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  # Shared namespace: both backend and frontend deploy here.
+  # The backend repo carries an identical copy of this manifest —
+  # applying both is idempotent.
+  name: simple-app

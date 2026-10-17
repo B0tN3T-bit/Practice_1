@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: backend-migration
+  namespace: simple-app
+  labels:
+    app: backend
+    component: migration
+spec:
+  ttlSecondsAfterFinished: 300   # auto-delete 5 min after completion
+  backoffLimit: 2                # retry up to 2 times on failure
+  template:
+    spec:
+      restartPolicy: Never
+      imagePullSecrets:
+      - name: dockerhub-secret
+      containers:
+      - name: migration
+        image: docker.io/<dockerhub-username>/backend:latest
+        command: ["npm", "run", "migration:run:prod"]
+        envFrom:
+        - secretRef:
+            name: backend-secret
+        resources:
+          requests: {cpu: 50m, memory: 128Mi}
+          limits: {cpu: 200m, memory: 256Mi}

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: simple-app
+spec:
+  clusterIP: None   # headless — required by StatefulSet for stable pod DNS (mysql-0.mysql)
+  selector:
+    app: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306

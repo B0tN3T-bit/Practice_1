@@ -1,0 +1,47 @@
+.container {
+  max-width: 480px;
+  margin: 40px auto;
+  padding: 0 16px;
+  font-family: system-ui, sans-serif;
+}
+
+.item-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.item-form input {
+  flex: 1;
+  padding: 8px;
+}
+
+.item-form button {
+  padding: 8px 16px;
+}
+
+.item-list {
+  list-style: none;
+  padding: 0;
+}
+
+.item-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.item-list li span {
+  cursor: pointer;
+}
+
+.item-list li.done span {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.error {
+  color: #c0392b;
+}

@@ -1,0 +1,55 @@
+# NOTE: none of the other company repos deploy their database inside kube/ —
+# they connect to an already-managed external MySQL via the backend Secret.
+# This StatefulSet is a temporary/self-contained stand-in for local or early
+# testing, until this project has an external managed MySQL to point at.
+#
+# StatefulSet (not Deployment) because MySQL holds real data:
+# - stable pod identity/DNS (mysql-0) instead of a random, replaceable name
+# - each replica gets its own PersistentVolumeClaim via volumeClaimTemplates,
+#   created/retained per pod (a Deployment's PVC is shared and doesn't
+#   follow a specific pod the way a StatefulSet's does)
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: simple-app
+  labels:
+    app: mysql
+spec:
+  serviceName: mysql   # must match the headless Service in mysql-service.yaml
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+        envFrom:
+        - secretRef:
+            name: mysql-secret
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+        readinessProbe:
+          tcpSocket: {port: 3306}
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket: {port: 3306}
+          initialDelaySeconds: 30
+          periodSeconds: 20
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
